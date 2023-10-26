@@ -1,2 +1,2 @@
 # SQL
-Scripts
+sp_changedbowner 'sa'
