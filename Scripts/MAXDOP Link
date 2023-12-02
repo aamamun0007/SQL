@@ -1,0 +1,14 @@
+---https://danilocbraga.wordpress.com/2018/07/16/recommend-maxdop-settings-for-sql-server/
+---https://littlekendra.com/2016/07/14/max-degree-of-parallelism-cost-threshold-for-parallelism/
+---https://www.brentozar.com/archive/2022/11/is-there-a-bug-in-sql-servers-maxdop-calculation/
+---https://www.dbi-services.com/blog/sql-server-automatic-soft-numa-and-uneven-cpu-load/
+---https://glennsqlperformance.com/2020/06/25/how-to-balance-sql-server-core-licenses-across-numa-nodes/
+---https://metrixdata360.com/license-series/sql-server-licensing-explained/
+---https://glennsqlperformance.com/2019/12/18/what-is-the-difference-between-physical-sockets-physical-cores-and-logical-cores/
+---https://dba.stackexchange.com/questions/311937/what-is-the-num-of-numa-nodes-for-maxdop-calculation-when-there-is-discrepancy-b
+---https://www.heroix.com/blog/how-much-cpu-does-microsofts-sql-server-2016-use-2/
+----https://sqlrus.com/2017/03/schedulers-to-rule-them-all/
+---https://charbelnemnom.com/understanding-processor-numa-core-logical-processor-and-virtual-processor-in-hyper-v/
+---https://www.linkedin.com/pulse/understanding-physical-logical-cpus-akshay-deshpande
+---https://dba.stackexchange.com/questions/36522/maxdop-setting-algorithm-for-sql-server
+---https://www.sqlservercentral.com/blogs/get-sql-server-physical-cores-physical-and-virtual-cpus-and-processor-type-information-using-transact-sql-t-sql-script
