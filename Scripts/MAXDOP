@@ -1,0 +1,124 @@
+/**
+
+MAXDOP Calculation
+
+Step 1: Calculate Hardware NUMA and Soft NUMA
+Step 2: Decide whether Hardware or Soft NUMA will be used
+Step 3: Divide the total logical processors by the NUMA used
+Step 4: If > 15 LPs/NUMA, MAXDop = (LPs/NUMA)/2, otherwise MAXDop = LPs/NUMA
+
+Which means that if you have:
+
+14 logical processors per NUMA node: MAXDOP will be set to 14
+16 logical processors per NUMA node: MAXDOP will be set to 8
+
+https://www.brentozar.com/archive/2022/11/is-there-a-bug-in-sql-servers-maxdop-calculation/
+
+**/
+
+
+
+
+-- Initialize Variables
+DECLARE @hyperthreadingRatio INT  -- Change the data type to match sys.dm_os_sys_info
+
+DECLARE @logicalCPUs INT
+DECLARE @OnlinelogicalCPUs INT
+DECLARE @HTEnabled INT
+DECLARE @physicalCPU INT
+DECLARE @logicalCPUPerNuma INT
+DECLARE @NoOfNUMA INT
+DECLARE @MaxDOP INT
+
+-- Retrieve System Information
+SELECT 
+    @logicalCPUs = cpu_count, -- Logical CPU Count
+	@OnlinelogicalCPUs = scheduler_count, -- Logical CPU Count
+    @hyperthreadingRatio = hyperthread_ratio, -- Hyperthread Ratio
+    @physicalCPU = cpu_count / hyperthread_ratio, -- Physical CPU Count
+    @HTEnabled = CASE 
+                    WHEN cpu_count > hyperthread_ratio THEN 1
+                    ELSE 0
+                 END -- HTEnabled
+FROM sys.dm_os_sys_info
+OPTION (RECOMPILE);
+
+-- Calculate Number of NUMA Nodes
+SELECT @NoOfNUMA = COUNT(DISTINCT parent_node_id)
+FROM sys.dm_os_schedulers
+WHERE [status] = 'VISIBLE ONLINE'
+    AND parent_node_id < 64
+
+--	-- Calculate Number of Logical Processors Per NUMA
+--SELECT @logicalCPUPerNuma =  (@logicalCPUs/@NoOfNUMA);
+
+-- Calculate Number of Logical Processors Per NUMA
+SELECT @logicalCPUPerNuma = COUNT(parent_node_id)
+FROM sys.dm_os_schedulers
+WHERE [status] = 'VISIBLE ONLINE'
+    AND parent_node_id < 64
+GROUP BY parent_node_id
+OPTION (RECOMPILE);
+
+
+-- Report the recommendations ....
+select
+    --- 8 or less processors and NO HT enabled
+    case 
+        when @logicalCPUs < 8
+            and @HTEnabled = 0
+            then 'MAXDOP setting should be : ' + CAST(@logicalCPUs as varchar(3))
+                --- 8 or more processors and NO HT enabled
+        when @logicalCPUs >= 8
+            and @HTEnabled = 0
+            then 'MAXDOP setting should be : 8'
+                --- 8 or more processors and HT enabled and NO NUMA
+        when @logicalCPUs >= 8
+            and @HTEnabled = 1
+            and @NoofNUMA = 1
+            then 'MaxDop setting should be : ' + CAST(@logicalCPUPerNuma / @physicalCPU as varchar(3))
+                --- 8 or more processors and HT enabled and NUMA
+        when @logicalCPUs >= 8
+            and @HTEnabled = 1
+            and @NoofNUMA > 1
+            then 'MaxDop setting should be : ' + CAST(@logicalCPUPerNuma / @physicalCPU as varchar(3))
+        else ''
+        end as Recommendations
+
+
+
+
+-- Set MaxDOP based on conditions
+IF @NoOfNUMA > 1
+    SET @MaxDOP = CASE
+                    WHEN @logicalCPUPerNuma > 15 THEN @logicalCPUPerNuma / 2
+                    ELSE @logicalCPUPerNuma
+                 END
+ELSE
+    SET @MaxDOP = CASE
+                    WHEN @logicalCPUs > 15 THEN @logicalCPUs / 2
+                    ELSE @logicalCPUs
+                 END
+
+-- Adjust MaxDOP if necessary
+IF @MaxDOP > 10
+    SET @MaxDOP = 10
+IF @MaxDOP = 0
+    SET @MaxDOP = 1
+
+-- Print System Information and Recommended MAXDOP Setting
+PRINT 'logicalCPUs : ' + CONVERT(VARCHAR, @logicalCPUs)
+PRINT 'OnlinelogicalCPUs : ' + CONVERT(VARCHAR, @OnlinelogicalCPUs)
+PRINT 'hyperthreadingRatio : ' + CONVERT(VARCHAR, @hyperthreadingRatio) 
+PRINT 'physicalCPU : ' + CONVERT(VARCHAR, @physicalCPU) 
+PRINT 'HTEnabled : ' + CONVERT(VARCHAR, @HTEnabled)
+PRINT 'logicalCPUPerNuma : ' + CONVERT(VARCHAR, @logicalCPUPerNuma) 
+PRINT 'NoOfNUMA : ' + CONVERT(VARCHAR, @NoOfNUMA)
+PRINT '---------------------------'
+PRINT 'MAXDOP setting should be : ' + CONVERT(VARCHAR, @MaxDOP)
+
+-- Collect status and count of schedulers
+SELECT [status], COUNT(1) AS 'Corecount'
+FROM sys.dm_os_schedulers
+GROUP BY [status]
+ORDER BY [status];
