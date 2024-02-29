@@ -12,3 +12,12 @@
 ---https://www.linkedin.com/pulse/understanding-physical-logical-cpus-akshay-deshpande
 ---https://dba.stackexchange.com/questions/36522/maxdop-setting-algorithm-for-sql-server
 ---https://www.sqlservercentral.com/blogs/get-sql-server-physical-cores-physical-and-virtual-cpus-and-processor-type-information-using-transact-sql-t-sql-script
+
+
+Parallel processing in SQL Server can seem a bit complex. Let's break it down: When you run a query, SQL Server might perform different tasks (called operators) at the same time to speed things up. Each of these tasks can use more than one thread to do its job.
+
+Imagine your SQL Server setup has 16 virtual CPUs, and you've set the "max degree of parallelism" (MAXDOP) to 4. This setting is on a SQL Server 2016 instance.
+
+Your query might be doing several things at once (we see these as operators in the execution plan), and you might notice that these operators are set to run in parallel, indicated by special symbols in the plan. The big question is: When these operators run in parallel, do they all share the same 4 CPU cores because of the MAXDOP setting, or can they spread out and use all 16 CPU cores available, with each potentially getting 4 cores to themselves?
+
+The answer is simpler than it might seem. Even though your query can do many things at once, all these parallel-running tasks have to share the CPU cores. The MAXDOP setting of 4 means that no single task will use more than 4 CPU cores, and they won't use more than 4 cores in total at the same time for your query. So, regardless of having multiple tasks running in parallel, they all share the same 4 cores allocated by the MAXDOP setting.
