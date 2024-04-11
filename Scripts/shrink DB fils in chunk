@@ -1,0 +1,19 @@
+
+Use DBCC SHRINKFILE
+
+Use SHRINKFILE to shrink the files incrementally(the comments rightfully suggest to AVOID using DBCC SHRINKDATABASE). Here I find it's important to "chunk" the shrinks in small sizes. Also, I use a T-SQL DELAY to allow the database to gain back some resources to do other activities as needed. Using the script below you'll need to enter 1.> your database name, 2.> your logical file name of the file, 3.> and the upper and lower bounds, in MB, for your upper database size in MB and 4.> your lower database size in MB. You'll notice that it shrinks in 100 MB increments but, again, you'll need to find the size that's right for you. Warning: larger increments aren't necessarily mor speedy. Don't worry "too much" if your lower bounds is too low--it won't/can't shrink past it. (You'll have to forgive my code, it's over 10 years old but still gets the job done).
+
+--Cut and paste the code that this T-SQL generates and run THAT code against your DB
+ declare @next int, @last int, @DELAY VARCHAR(255), @SHRINK VARCHAR(1000)
+    
+    SELECT @DELAY='WAITFOR DELAY ''000:00:01'''
+    select @next=102000, @last=50000
+    while(@next >=@last)
+    begin
+    --print @next
+    SELECT @SHRINK ='use [<your DB name>] DBCC SHRINKFILE (N''<enter logical file name>'','+convert(varchar(255),@next)+ ')'
+    print @shrink
+    print @DELAY
+    print 'go'
+    select @next=@next-100
+    end
