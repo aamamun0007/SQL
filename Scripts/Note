@@ -1,27 +1,48 @@
-When considering performance enhancements for SQL Server, Always On Availability Groups (AG) are often recommended over Log Shipping due to several key advantages:
+DECLARE @PhysicalMemoryMB DECIMAL(18, 0);
 
-Real-Time Data Synchronization:
+-- Get the total physical memory in megabytes
+SELECT @PhysicalMemoryMB = CAST(physical_memory_kb / 1024.0 AS DECIMAL(18, 0))
+FROM sys.dm_os_sys_info;
 
-AG: Provides near real-time data synchronization across multiple replicas. For example, if a transaction is committed on the primary replica, it is immediately replicated to the secondary replicas.
-Log Shipping: Involves periodic copying and restoring of transaction logs, which can introduce latency. For instance, if logs are shipped every 15 minutes, there could be up to a 15-minute delay in data synchronization.
-Automatic Failover:
+-- Calculate 80% of the physical memory for SQL Server
+DECLARE @SQLServerMaxMemoryMB DECIMAL(18, 0);
+SET @SQLServerMaxMemoryMB = CAST(@PhysicalMemoryMB * 0.8 AS DECIMAL(18, 0));
 
-AG: Supports automatic failover to secondary replicas in case of primary replica failure. This ensures high availability with minimal downtime. For example, if the primary server crashes, a secondary server can take over almost instantly.
-Log Shipping: Requires manual intervention to promote a secondary server to primary, resulting in longer recovery times. If a failure occurs, the DBA must manually restore logs and update configurations, which can take significant time.
-Read-Only Replicas:
+-- Set a minimum of 2 GB for SQL Server memory
+DECLARE @SQLServerMinMemoryMB DECIMAL(18, 0);
+SET @SQLServerMinMemoryMB = 2048;
 
-AG: Allows configuration of read-only secondary replicas that can be used for offloading read operations. This improves overall system performance by distributing the workload. For instance, reporting queries can be directed to a read-only replica, reducing the load on the primary server.
-Log Shipping: Secondary servers are generally in standby mode and cannot be used for read operations without restoring transaction logs, which means they are not available for offloading queries.
-Integrated Monitoring and Management:
+-- Get the current minimum and maximum server memory settings
+DECLARE @CurrentMinServerMemory DECIMAL(18, 0);
+DECLARE @CurrentMaxServerMemory DECIMAL(18, 0);
 
-AG: Provides built-in tools for monitoring the health and performance of availability groups, simplifying management. For example, SQL Server Management Studio (SSMS) offers dashboards for real-time monitoring of AGs.
-Log Shipping: Requires additional custom scripts or third-party tools for comprehensive monitoring and management, adding complexity to the administrative process.
-Granular Configuration and Flexibility:
+SELECT @CurrentMinServerMemory = (SELECT CONVERT(DECIMAL(18, 0), CONVERT(NUMERIC(18, 0), value)) FROM sys.configurations WHERE name LIKE '%min server memory%');
 
-AG: Offers more granular control over failover processes and replication settings, allowing customization to meet specific performance and availability requirements. For example, you can configure certain replicas for synchronous commit for high availability and others for asynchronous commit for disaster recovery.
-Log Shipping: Is relatively straightforward but lacks the flexibility and advanced features of AG, limiting customization options.
-Improved Performance:
+SELECT @CurrentMaxServerMemory = CAST(value_in_use AS DECIMAL(18, 0))
+FROM sys.configurations
+WHERE name = 'max server memory (MB)';
 
-AG: By providing near real-time data synchronization and the ability to offload read operations, AG often results in better overall system performance. For instance, critical applications experience minimal latency and high availability.
-Log Shipping: Can introduce performance overhead due to the periodic nature of log backups and restores, which can impact the responsiveness of the system during log shipping intervals.
-In summary, Always On Availability Groups are preferred over Log Shipping for performance due to real-time data synchronization, automatic failover, read-only replicas, integrated monitoring, granular configuration, and overall improved system performance.
+-- Generate the script to configure SQL Server memory
+DECLARE @Script NVARCHAR(MAX);
+SET @Script = 
+    'USE master;' + CHAR(13) + CHAR(10) +
+    'EXEC sp_configure ''show advanced options'', 1;' + CHAR(13) + CHAR(10) +
+    'RECONFIGURE;' + CHAR(13) + CHAR(10) +
+    'EXEC sp_configure ''max server memory (MB)'', ' + CAST(@SQLServerMaxMemoryMB AS NVARCHAR(50)) + ';' + CHAR(13) + CHAR(10) +
+    'EXEC sp_configure ''min server memory (MB)'', ' + CAST(@SQLServerMinMemoryMB AS NVARCHAR(50)) + ';' + CHAR(13) + CHAR(10) +
+    'RECONFIGURE;' + CHAR(13) + CHAR(10) +
+    'EXEC sp_configure ''show advanced options'', 0;' + CHAR(13) + CHAR(10) +
+    'RECONFIGURE;' + CHAR(13) + CHAR(10);
+
+-- Display the suggested memory allocation
+PRINT 'Current memory configuration';
+PRINT ''
+PRINT 'Physical Memory: ' + CAST(@PhysicalMemoryMB AS NVARCHAR(50)) + ' MB';
+PRINT 'Current Min Server Memory for SQL Server: ' + CAST(@CurrentMinServerMemory AS NVARCHAR(50)) + ' MB';
+PRINT 'Current Max Server Memory for SQL Server: ' + CAST(@CurrentMaxServerMemory AS NVARCHAR(50)) + ' MB';
+PRINT 'Suggested Min Server Memory for SQL Server: ' + CAST(@SQLServerMinMemoryMB AS NVARCHAR(50)) + ' MB';
+PRINT 'Suggested Max Server Memory for SQL Server: ' + CAST(@SQLServerMaxMemoryMB AS NVARCHAR(50)) + ' MB';
+PRINT ''
+PRINT 'Generated Script to Configure SQL Server Memory:';
+PRINT ''
+PRINT @Script;
