@@ -1,0 +1,88 @@
+Import-Module SQLPS
+
+$server = $env:computername
+$query = "SELECT
+   AGC.name -- Availability Group
+ , RCS.replica_server_name -- SQL cluster node name
+ , ARS.role_desc  -- Replica Role
+ , AGL.dns_name  -- Listener Name
+FROM
+ sys.availability_groups_cluster AS AGC
+  INNER JOIN sys.dm_hadr_availability_replica_cluster_states AS RCS
+   ON
+    RCS.group_id = AGC.group_id
+  INNER JOIN sys.dm_hadr_availability_replica_states AS ARS
+   ON
+    ARS.replica_id = RCS.replica_id
+  INNER JOIN sys.availability_group_listeners AS AGL
+   ON
+    AGL.group_id = ARS.group_id"
+$nodes = Invoke-Sqlcmd -ServerInstance $server -Database 'master' -Query $query
+foreach ($node in $nodes)
+{
+    if ($node.role_desc -eq 'PRIMARY') {$primary = $node.replica_server_name} 
+    if ($node.role_desc -eq 'SECONDARY') {$secondary = $node.replica_server_name}
+}
+if ($server -eq $primary)
+{
+    $sql = "set nocount on
+    declare 
+    @login sysname,
+    @role varchar(2048),
+    @perm varchar(2048)
+
+    declare cursLogins cursor fast_forward for
+
+    -- Collect server logins to script
+    select name
+    from sys.server_principals
+    where ((left(name, 4) not in ('NT A', 'NT S') and type in ('U', 'G')) or (left(name, 2) <> '##' and type = 'S'))
+    and type in ('S','U','G')
+    and name not in ('sa','abc\administrator')
+
+    open cursLogins
+    fetch from cursLogins into @login
+    print '-- [-- SCRIPT SERVER LOGINS --] --'
+    while (@@fetch_status = 0)
+    begin
+	    -- Script out user logins
+	    exec sp_help_revlogin @Login
+
+	    -- Script out user roles
+	    select @role = 'ALTER SERVER ROLE [' + SR.name + '] ADD MEMBER [' + SL.name + ']'
+	    from master.sys.server_role_members SRM
+	    join master.sys.server_principals SR on SR.principal_id = SRM.role_principal_id
+	    join master.sys.server_principals SL on SL.principal_id = SRM.member_principal_id
+	    where SL.name = @login
+	    if @role is not null
+		    print @role
+
+	    -- Script out user permissions
+	    select @perm = (
+	    case when SrvPerm.state_desc <> 'GRANT_WITH_GRANT_OPTION' 
+		    then SrvPerm.state_desc 
+		    else 'GRANT'
+	    end
+        + ' ' + SrvPerm.permission_name + ' TO [' + SP.name + ']' + 
+	    case when SrvPerm.state_desc <> 'GRANT_WITH_GRANT_OPTION' 
+		    then '' 
+		    else ' WITH GRANT OPTION' 
+	    end collate database_default)
+	    from sys.server_permissions as SrvPerm 
+	    join sys.server_principals as SP 
+		    on SrvPerm.grantee_principal_id = SP.principal_id 
+	    where SP.name = @login
+	    if @perm is not null
+		    print @perm
+	    print ''
+	    set @role = null
+	    set @perm = null
+	    fetch next from cursLogins into @Login
+    end
+    print '/*** Generated ' + convert (varchar, getdate()) + ' on ' + @@servername + ' ***/'
+    close cursLogins
+    deallocate cursLogins"
+
+    $result = (Invoke-Sqlcmd -ServerInstance $server -Database Master -Query $sql -Verbose 4>&1).Message | Out-String
+    Invoke-Sqlcmd -ServerInstance $secondary -Database master -Query $result
+}
