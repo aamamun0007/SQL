@@ -1,0 +1,64 @@
+Case 1: CPU High/Process Slow
+--Check for blocking
+--Ask the user if there is any recent change happened (When there is no long running queries/ no blocking)
+--If there is any change like, Table/SP, for that check following
+      --Missing index
+      --Lots of jons/ Adhoc query/do not use No lock hints
+      --If there is table scan, based on execution plan (we can suggest for creting index) 
+      --If you see sorting (you will understand higjh tempdb use) 
+
+
+Case: Exiting query/ high CPU
+
+--find the most resource intensive query/ long running query, Compare record (between today and yeterday execution plan) if we see there is huge difference we can force the yesterday plan. 
+--Purge job/delete jobs during wekeend can cause high CPU
+--Index maintenace jobs
+
+
+Case 3: Log file full
+
+--Create new log file another drive where you have available space
+--shrink log file
+--We also put cap for new log file to make sure we have availabkle free space in drive
+--if Db is TB size/ PROD environment/Can not remove from Ag/ Can not add additional file--in that case we start a CRT call tio involve all team and add additional space on that drive.
+
+
+Tool:
+--Sentry one (One of the metric to see the table size growth)
+--Sentry one (plan explorer)
+--DPA
+--Query store
+--Who is active
+
+Case 4: CPU normal/Query plan (no plan flip), still query running slow
+--Ask for table or SP
+--Clean cache for specific table
+--Stat update for specofoc table
+--sometime internal failover in smae DC helps as last options.
+
+Case 5: Load balance
+Shared server, smae host, 3 apps, 3  DBs, 3 instances, 3 5TB DB, smae host, FCI 3 node
+
+For doing the load balance make the passibe node as active for one of the instance. In that case node one has less pressure.
+And keep C node as possible failover for all.
+
+
+
+
+--TDE
+--SSL certificate
+--FCI
+--Mirorring
+--Read Scal AG
+--AG
+--AG DAC
+
+
+--Enable Trace 9576 for auto seeding to speed up. 
+
+
+Case 6:
+Same ENV, 15-20 DB, single Host, Multiple DB App
+
+
+
