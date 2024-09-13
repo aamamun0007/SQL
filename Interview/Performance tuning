@@ -61,4 +61,22 @@ Case 6:
 Same ENV, 15-20 DB, single Host, Multiple DB App
 
 
+I hope this message finds you well.
 
+As discussed, I wanted to bring to your attention the recent observations regarding the Solarwind process and its impact on our application jobs:
+
+The Solarwind process starts around 1:15 AM.
+Our application jobs run between 2:30 PM and 5:00 PM, taking approximately 5-15 minutes to complete.
+We have noticed that if the Solarwind process is not terminated before the application jobs start, the jobs take more than an hour to complete. However, if the Solarwind process is killed beforehand, all application jobs complete on time.
+
+The App team has confirmed that the DPA process is not creating any blocks, and I did not find this query as long-running in any logs except for the LRQ notification.
+
+To address this issue, we will be modifying the stored procedure to filter out the Solarwind process. Please find the details of the planned modifications below:
+
+[Insert Modification Details]
+
+We believe this adjustment will ensure the timely completion of our application jobs without interference from the Solarwind process.
+
+Thank you for your attention to this matter. If you have any questions or need further information, please do not hesitate to reach out.
+
+Best regards,
