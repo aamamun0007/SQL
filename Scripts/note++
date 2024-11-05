@@ -1,1 +1,60 @@
 https://www.mediafire.com/file/xopw898bov8z95l/Always+On+logins+sync.rar/file
+
+
+173233, Project Tracking System
+
+Servers: GFTPTSNADBPR01, GFTPTSNADBPR02
+
+The SolarWinds process was causing the application job to run slowly. The application team requested removing the server from SolarWinds monitoring, but it was necessary for analysis and performance tuning. As a workaround, we implemented a solution to kill the SolarWinds process if it ran for more than 5 minutes during the window when the application jobs were running.
+
+174029, Desktop Process Analytics - NEXTGEN VDI
+
+Servers: DPA18ASSQLP001V, DPA18BSQLP002V
+
+To resolve low disk space and blocking issues, we identified several application jobs (which perform deletions, bulk inserts, and updates) as the cause. After investigating, I met with the vendor and recommended running the process in small batches to reduce blocking and low disk space issues, as there would be no long-running transactions. I also recommended increasing the disk space for the drive. The vendor is now working on it.
+
+Job1
+Job2
+DPA Database Aggregation Purge
+DA Database Aggregation Report Process
+173674, Project Tracking System - 2.0 Reporting
+
+SLTN0000125254 for Physical Server: I needed to join multiple meetings with the application team to review the SLTN and provide the required details, including justification for not moving to MSaaS, layout design, and discussion and review of Distributed AG for this environment.
+
+173674, Project Tracking System - 2.0 Reporting
+
+SLTN0000126789 for MVM for Distributed AG POC: I worked with the application team to review the existing UAT servers and provided the required details to submit the SLTN.
+
+159751, DATAMAR
+
+Server: SD-8E2F-25DC
+
+Application jobs were failing due to updating the connection string for the TCO database, which depends on an Oracle linked server. We identified the issue, dropped the existing linked server, and created a new one with the updated data source. CHG0008449350.
+
+159751, DATAMAR
+
+Server: SD-9A43-B24E
+
+Application jobs were failing due to updating the connection string for the TCO database, which depends on an Oracle linked server. We identified the issue, dropped the existing linked server, and created a new one with the updated data source. CHG0008449367, CHG0008448507.
+
+159751, DATAMAR
+
+Server: SD-9A43-B24E
+
+I worked with the application team to identify the low disk space issue, which was causing log backup failures. We removed unwanted files, ran the log backup jobs, and shrunk the log. INCO140904419.
+
+173674, Project Tracking System - 2.0 Reporting
+
+The OTC did not work in the last COB test. The application team is planning a COB test on the coming 23rd of November. We investigated the issue and provided the required permission. The failure occurred while testing the connection from RBA tools. We will send the details to the RBA team.
+
+50060, Database Login Management System
+
+Servers: CTISWDLMDBV1P, CTISWDLMDBV2P
+
+I worked with Jim to add the servers to DPA for future performance tuning.
+
+APPSENSE MANAGEMENT SUITE
+
+Servers: IVT04, ISUOOL
+
+Ivanti 10.5 is going to EOVS soon. I helped the application team upgrade the Ivanti farm to the latest version, and it is now certified. We performed the DB backup activity. CHG0008443878.
