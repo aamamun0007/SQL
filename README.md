@@ -1,3 +1,33 @@
+Summary for App Team – SQL Query Performance Issue & Resolution
+The reporting process, which runs three times daily, started experiencing slowness after January 31st. The issue was caused by a Nested Loop in the query execution plan and was recently resolved with a coding change.
+
+Key Findings from Microsoft Engineer's Analysis:
+Cause of the Issue:
+
+The query execution plan changed after January 31st, leading to performance degradation.
+The exact root cause could not be determined because there is no execution plan from before January 31st to compare with the post-issue plan.
+Query Store couldn't be used because the process runs on a read-only secondary replica, and Query Store doesn’t capture data on read-only replicas (this changes in SQL 2022).
+DPA couldn't store the plan because it was too large.
+Investigation & Troubleshooting Steps:
+
+Live Query Statistics: Helps track real-time query performance.
+Actual Execution Plan: Captures runtime query details, including resource usage.
+Extended Events for Execution Plan Capture: Allows tracking and comparison of query execution plans over time.
+Challenges with Query Optimization:
+
+The query is very large, leading to optimizer timeouts. SQL Server has a limit on the number of possible execution plans it can evaluate before choosing the best available one.
+In cases like this, manual intervention (such as forcing a specific execution plan or making coding changes) may be necessary to ensure optimal performance.
+Recommended Next Steps:
+Monitor performance to ensure the recent coding change fully resolves the issue.
+Implement execution plan tracking using Extended Events to capture future plan changes.
+If further tuning is needed, the Microsoft engineer can review and provide indexing or optimization recommendations.
+Let us know how you would like to proceed.
+
+
+
+
+
+
 -- 1. Retrieve MAXDOP and Cost Threshold for Parallelism
 SELECT 
     (SELECT value FROM sys.configurations WHERE name = 'max degree of parallelism') AS MaxDOP,
