@@ -2,6 +2,19 @@ Meeting Minutes – PTS2/PTS2_Reporting: Performance Review & Discussion
 Date: [Insert Date]
 Attendees: [List Participants]
 
+
+Subject: Change of COMP Off Plan
+
+Hello Demonte,
+
+I had planned to take comp off today for last week's migration activity (CHG0000109465), as we had to work the entire Saturday.
+
+However, I had to adjust my plan since EPO had scheduled a COB test for today and tomorrow. That test has now been canceled per CISO's request for a COB freeze this weekend. The test has been rescheduled for April 12, 2025.
+
+I will now take my comp off on Monday, March 10, 2025.
+
+Thanks,
+
 1. Fragmentation Email Issue
 The scheduled job is running successfully; however, the email notification process is failing, which is why the report is not being received.
 The team has identified the issue and is actively working on resolving the email delivery failure to ensure timely report dissemination.
