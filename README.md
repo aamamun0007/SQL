@@ -1,4 +1,12 @@
 
+The key performance indicators (KPIs) for this role focus on team management, capability building, and timely delivery of technical expertise. Mentorship and career growth are essential, with a target to mentor a defined number of team members for their next position, ensuring leadership development and succession planning. Training and skill enhancement should be actively driven by conducting regular technical and process training sessions to upskill the team. Hiring as per plan must be executed efficiently, ensuring that recruitment aligns with business needs and timelines to maintain team strength and expertise. Employee engagement and satisfaction (EES) should be monitored and improved, aiming for a high engagement score to foster a motivated and productive workforce. Together, these KPIs ensure that the team is well-equipped, engaged, and aligned with business objectives, leading to efficient service delivery and continuous growth.
+
+
+
+
+
+
+
 The key performance indicators (KPIs) for the role focus on ensuring operational excellence, customer satisfaction, and risk mitigation within the concerned technology tower (platform, database, middleware, backup, etc.). SLA adherence must be maintained at 98% or higher, ensuring that incidents and service requests are resolved within agreed timelines to minimize service disruptions. Customer escalations should be kept at zero per quarter, reflecting high service reliability and proactive issue resolution. To monitor ticket volume and resolution efficiency, the number of tickets raised should follow a stable or decreasing trend, while at least 80% of tickets should be resolved within the first response SLA to enhance operational efficiency. Client requirement adherence must be 100%, ensuring that all platform upgrades, configurations, and security measures align with business needs. Customer satisfaction (CSAT) should be maintained at a minimum of 90%, demonstrating high service quality and stakeholder confidence. Additionally, risk mitigation is crucial, with at least 90% of identified risks addressed within remediation timelines to strengthen system security, reduce downtime, and ensure compliance. Together, these KPIs provide a comprehensive framework for measuring success, improving service quality, and driving continuous improvement.
 
 
