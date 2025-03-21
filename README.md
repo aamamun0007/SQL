@@ -1,3 +1,14 @@
+
+The key performance indicators (KPIs) for the role focus on ensuring operational excellence, customer satisfaction, and risk mitigation within the concerned technology tower (platform, database, middleware, backup, etc.). SLA adherence must be maintained at 98% or higher, ensuring that incidents and service requests are resolved within agreed timelines to minimize service disruptions. Customer escalations should be kept at zero per quarter, reflecting high service reliability and proactive issue resolution. To monitor ticket volume and resolution efficiency, the number of tickets raised should follow a stable or decreasing trend, while at least 80% of tickets should be resolved within the first response SLA to enhance operational efficiency. Client requirement adherence must be 100%, ensuring that all platform upgrades, configurations, and security measures align with business needs. Customer satisfaction (CSAT) should be maintained at a minimum of 90%, demonstrating high service quality and stakeholder confidence. Additionally, risk mitigation is crucial, with at least 90% of identified risks addressed within remediation timelines to strengthen system security, reduce downtime, and ensure compliance. Together, these KPIs provide a comprehensive framework for measuring success, improving service quality, and driving continuous improvement.
+
+
+
+
+
+
+
+
+
 Meeting Minutes – PTS2/PTS2_Reporting: Performance Review & Discussion
 Date: [Insert Date]
 Attendees: [List Participants]
