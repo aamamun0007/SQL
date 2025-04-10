@@ -1,4 +1,43 @@
+Availability Group (AG) Naming Suggestions
+1. Global Primary AG
 
+Current AG is hosted on: GFTPTSNADBUA01 (Primary)
+
+Suggested name:
+
+AG_GFTPTSNADBUA_Global
+or cleaner/shorter: AG_GFTPTS_Global
+or by cluster role: AG_Cluster1_Global
+2. Forwarder AG
+
+Current AG2 is hosted on: GFTPTSRNADBUA1A (Primary)
+
+Suggested name:
+
+AG_GFTPTSRNADBUA_Forwarder
+or cleaner/shorter: AG_GFTPTSR_Forwarder
+or by cluster role: AG_Cluster2_Forwarder
+Optional Enhancements:
+You could add environment tag (e.g., PROD) or version tag (e.g., SQL15) for extra clarity:
+
+AG_GFTPTS_Global_PROD
+AG_GFTPTSR_Forwarder_PROD
+Distributed AG (DAG) Naming Suggestions
+Current DAG name: DistAG_CL1_CL2 (not bad, but could be more readable)
+
+Suggested new names:
+
+DAG_GFTPTS_GFTPTSR
+DAG_Global_Forwarder
+DAG_Cluster1_Cluster2
+DAG_LA_TX (if tied to locations)
+DAG_PROD (if only one DAG exists per env)
+DAG_GFTPTS_Prod15 (if you want versioning)
+Final Example Naming Set
+AG (Global Primary): AG_GFTPTS_Global
+AG2 (Forwarder): AG_GFTPTSR_Forwarder
+Distributed AG: DAG_GFTPTS_GFTPTSR
+Let me know if you'd like me to align these with any existing naming policies (like max 15 chars, always use underscores, etc.).
 The key performance indicators (KPIs) for this role focus on team management, capability building, and timely delivery of technical expertise. Mentorship and career growth are essential, with a target to mentor a defined number of team members for their next position, ensuring leadership development and succession planning. Training and skill enhancement should be actively driven by conducting regular technical and process training sessions to upskill the team. Hiring as per plan must be executed efficiently, ensuring that recruitment aligns with business needs and timelines to maintain team strength and expertise. Employee engagement and satisfaction (EES) should be monitored and improved, aiming for a high engagement score to foster a motivated and productive workforce. Together, these KPIs ensure that the team is well-equipped, engaged, and aligned with business objectives, leading to efficient service delivery and continuous growth.
 
 
