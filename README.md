@@ -1,3 +1,17 @@
+
+Over the past five years at Citigroup, I have consistently demonstrated a strong commitment to operational excellence, system reliability, and collaboration across multiple teams. During this appraisal period, I have played a critical role in maintaining and optimizing the SQL Server environment that supports several high-availability and business-critical applications. I was actively involved in end-to-end database administration tasks, including performance tuning, capacity planning, backup and recovery strategies, and disaster recovery testing. I successfully led and supported several patching cycles, ensuring that all database servers remained compliant with the latest security and performance standards with minimal impact to end users. Additionally, I collaborated with infrastructure, application development, and information security teams to align on key projects, resolve cross-functional issues, and standardize configurations across production and non-production environments.
+
+My contributions have helped reduce downtime, improve system responsiveness, and enhance overall database stability. I also mentored junior DBAs and contributed to knowledge-sharing efforts within the team, helping to build a stronger and more resilient support model. While I met or exceeded expectations on most fronts, I recognize that there is room to grow in areas such as automation and proactive process improvements. There were opportunities where earlier risk identification and more streamlined documentation could have further improved our response times and efficiency. To address this, I plan to pursue advanced training in automation tools such as PowerShell and SQL Server Agent automation techniques, and further strengthen my skills in project management and stakeholder communication.
+
+In the upcoming months, my key priorities will include expanding automation across our maintenance and monitoring tasks, enhancing Always On Availability Group configurations for better failover handling, and continuing to drive process standardization across our environments. I will also focus on contributing to enterprise-wide initiatives aimed at improving database scalability, reliability, and security, ensuring that our data infrastructure continues to support Citigroup's business goals effectively and securely.
+
+
+
+
+
+
+-------
+
 Availability Group (AG) Naming Suggestions
 1. Global Primary AG
 
