@@ -1,4 +1,6 @@
 
+To achieve my desired skill level, I would appreciate support in the form of access to advanced technical training, certifications, and opportunities to work on more complex, cross-functional projects. Regular feedback sessions and mentorship from senior DBAs or architects would help guide my growth. Additionally, involving me in strategic planning discussions, cloud migration projects, and high-availability initiatives would allow me to build broader experience and sharpen critical skills needed for the next level of expertise.
+
 Question 1: What has gone well in the past quarter?
 In the past quarter, several key initiatives went well. We successfully completed the SQL Server patching across production and non-production environments with minimal downtime. Proactive monitoring and alert tuning have significantly reduced false alerts, improving our response times. Additionally, the backup validation process was enhanced, and we completed several database performance tuning efforts that resulted in improved application responsiveness. I also helped standardize server builds and documentation, which has improved team collaboration and onboarding processes.
 
