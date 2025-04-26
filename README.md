@@ -1,4 +1,22 @@
 
+Question 1: What has gone well in the past quarter?
+In the past quarter, several key initiatives went well. We successfully completed the SQL Server patching across production and non-production environments with minimal downtime. Proactive monitoring and alert tuning have significantly reduced false alerts, improving our response times. Additionally, the backup validation process was enhanced, and we completed several database performance tuning efforts that resulted in improved application responsiveness. I also helped standardize server builds and documentation, which has improved team collaboration and onboarding processes.
+
+Question 2: What could have been done better?
+One area that could have been improved is in the coordination of maintenance activities with application owners. There were a few instances where last-minute changes impacted planned activities. Early engagement with stakeholders and better communication could help avoid these issues. Additionally, some of the larger database migrations took longer than expected due to underestimating data growth trends — more thorough capacity planning would have made those smoother.
+
+Question 3: What actions have you taken to develop the skills identified against your goal?
+To align with my goal of strengthening skills in cloud-based SQL Server management, I completed training on Azure SQL Database administration and began hands-on practice in a lab environment. I also participated in internal sessions on high availability (HA/DR) design improvements and worked closely with the infrastructure team to gain deeper insights into Windows Clustering and Availability Groups. Regularly attending webinars and reviewing Microsoft’s best practices helped me stay updated with new features and techniques.
+
+Development Plan:
+My development plan for the upcoming quarter focuses on further strengthening cloud expertise by pursuing the Azure Database Administrator Associate certification (DP-300). I also plan to deepen my knowledge of automation using PowerShell and Terraform for database deployments. Additionally, I will work on developing leadership skills by mentoring junior DBAs and taking an active role in disaster recovery (DR) planning and testing. Continuous learning through courses, certifications, and project experience will be a key part of my plan to support both my personal growth and the team’s success.
+
+
+
+
+
+
+-------
 Over the past five years at Citigroup, I have consistently demonstrated a strong commitment to database reliability, performance, and cross-functional collaboration in support of our mission-critical systems. During this appraisal period, I played a key role in managing and enhancing SQL Server environments by focusing on high availability, system monitoring, and performance optimization. I was actively involved in several initiatives including onboarding the new Rubrik backup solution, ensuring seamless integration with our existing backup strategy while improving efficiency and compliance. I also worked on enhancing Database Availability Group (DAG) configurations to support more resilient and fault-tolerant database operations. Leveraging tools such as SCOM, I helped strengthen monitoring and alerting capabilities across our SQL estate, leading to faster response times and improved incident management.
 
 In addition, I utilized Query Store to proactively identify and resolve performance bottlenecks, enabling better execution plan stability and reduced query regressions across critical workloads. I collaborated closely with infrastructure, application support, and InfoSec teams to ensure that systems remained secure, patched, and aligned with Citigroup’s standards and compliance requirements. I also supported various business teams during deployments, month-end processing, and troubleshooting efforts, ensuring that service levels were maintained with minimal disruption. While I was able to meet key expectations, I recognize the opportunity to further improve in areas such as early risk identification and structured documentation. I plan to enhance my skills in these areas and continue contributing to strategic efforts that drive long-term database health and performance.
