@@ -1,4 +1,4 @@
-
+https://youtu.be/snI94Bloog4?si=-JkarA7xcUpZaa7G
 To achieve my desired skill level, I would appreciate support in the form of access to advanced technical training, certifications, and opportunities to work on more complex, cross-functional projects. Regular feedback sessions and mentorship from senior DBAs or architects would help guide my growth. Additionally, involving me in strategic planning discussions, cloud migration projects, and high-availability initiatives would allow me to build broader experience and sharpen critical skills needed for the next level of expertise.
 
 Question 1: What has gone well in the past quarter?
