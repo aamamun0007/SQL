@@ -1,3 +1,65 @@
+
+Overview:
+
+As part of our SQL Server 2019 Distributed Availability Group (DAG) implementation across two Windows Server Failover Clusters (WSFCs) in the OH Data Center (WSFC1 and WSFC2), we performed a series of failover and availability tests to validate data replication, login synchronization, application connectivity, and failover scenarios between the clusters.
+
+The current testing was conducted in a 2+2 node configuration, whereas the production (Fraud) environment is configured as 4+4, which presents some limitations described in the sections below.
+
+Environment Summary:
+WSFC1: Primary Cluster for Live Servers
+Primary Replica: GFTPTSNDABUA01
+Secondary Replica: GFTPTSNDABUA02
+AG: GFTPTSNDABUA01_AG
+Listener: GFT-PTSU1AOL.nam.nsroot.net
+WSFC2: Secondary Cluster (Forwarder Role + Reporting AG)
+Forwarder: GFTPTSRNADBUA01
+Secondary Replica: GFTPTSRNADBUA02
+AG 2: GFTPTSRNADBUA01_AG
+Reporting AG: GFTPTSREPORTING_AG
+Listener: GFT-PTSU2AOL.nam.nsroot.net
+Distributed AG: DistAG_CL1_CL2
+Testing Performed:
+Test Case	Objective	Status	Remarks
+1. Data Movement Validation	Ensure transactions are replicated across clusters	Passed	Inserts/updates on WSFC1 were reflected in WSFC2
+2. Failover WSFC1 to WSFC2 (Global Primary to Global Secondary)	Validate manual DAG failover between clusters	Passed	Role switch tested successfully
+3. Failover from WSFC2 Forwarder to Secondary	Validate failover between WSFC2 nodes	Passed	Reporting AG failed over without data loss
+4. Login Synchronization	Validate login consistency between replicas	Passed	Logins were synced manually and confirmed
+5. Application Connectivity Test (via Listener)	Validate listener name and app connectivity after failover	Passed	Application successfully connected via listener post failover
+6. Job Sync & Execution Validation	Ensure SQL Jobs are available and executable on failover	Passed	Jobs were present and executed correctly
+7. Cluster Role Failback (WSFC2 to WSFC1)	Ensure system returns cleanly to original state	Passed	Failback successful without issues
+Tests Not Performed:
+Test Case	Reason
+Full failover of Cluster1 (WSFC1)	This scenario was not tested due to impact risk. We do not know if WSFC2 will handle full Cluster1 outage autonomously.
+Testing with 4+4 node configuration	Current test was performed with 2+2 only. Production DAG has 4 replicas per cluster (4+4), which may present additional complexities (quorum, sync delay, etc.)
+Automatic failover scenarios	DAG in SQL Server does not support automatic failover across clusters. Only manual failover was tested.
+Risks & Limitations:
+Test environment differs from Production:
+Testing in 2+2 may not reflect behavior in 4+4 (replica distribution, quorum handling, failover delays).
+No full cluster outage testing:
+We have not validated how WSFC2 would respond if WSFC1 is entirely offline (e.g., network failure, DR scenario).
+Manual steps required for failover:
+DAGs require manual intervention to failover between clusters. There’s risk of delay or human error during critical outages.
+Recommendations:
+Simulate WSFC1 full outage in non-prod:
+Clone production setup (4+4) in a QA or UAT environment to validate system behavior during full primary cluster failure.
+Develop and document a failover runbook:
+Include login sync steps, job verification, AG health checks, and DNS updates if needed.
+Enhance Monitoring and Alerting:
+Implement real-time alerts for data lag, AG state changes, login mismatches, and job failures.
+Periodic Login & Job Sync Validation:
+Automate regular checks to ensure login and job consistency across all replicas.
+Disaster Recovery Drill:
+Schedule periodic DR drills involving failover from WSFC1 to WSFC2 and validation of application connectivity.
+Conclusion:
+The Distributed Availability Group testing for the 2+2 cluster configuration was successful for key scenarios such as data movement, login sync, failover/failback, and connectivity validation. However, there are limitations and risks when extrapolating this success to the 4+4 production setup, especially for complete cluster outages and quorum behavior.
+
+We recommend enhancing testing coverage in a scaled environment and defining a formal failover and recovery plan before considering full reliance on DAG for production DR purposes.
+
+
+
+
+----/
+
 https://youtu.be/snI94Bloog4?si=-JkarA7xcUpZaa7G
 To achieve my desired skill level, I would appreciate support in the form of access to advanced technical training, certifications, and opportunities to work on more complex, cross-functional projects. Regular feedback sessions and mentorship from senior DBAs or architects would help guide my growth. Additionally, involving me in strategic planning discussions, cloud migration projects, and high-availability initiatives would allow me to build broader experience and sharpen critical skills needed for the next level of expertise.
 
