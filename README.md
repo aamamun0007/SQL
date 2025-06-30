@@ -37,3 +37,16 @@ Best regards,
 Abdullah Al Mamun
 SQL Server DBA
 
+Subject: Farewell and Thank You
+
+Dear Team,
+
+As today marks my last day, I wanted to take a moment to thank each of you for the collaboration, support, and experiences we’ve shared.
+
+It has truly been a pleasure working alongside such talented and dedicated individuals. I’ve learned a lot and will carry those lessons with me moving forward.
+
+Wishing you all continued success in your roles and future endeavors. Please feel free to stay in touch — you can reach me at [your personal email or LinkedIn if you'd like to share].
+
+Warm regards,
+
+
